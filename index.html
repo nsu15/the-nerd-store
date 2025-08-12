@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Nerd Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+/* Sticky logo styling */
+.sticky-logo {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 9999;
+  display: block;
+}
+.sticky-logo img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  background-color: #f9f6f2;
+  padding: 4px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.sticky-logo:hover img {
+  transform: scale(1.05);
+}
+
+/* Logo */
+.logo-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f6f2;
+}
+
+.logo {
+  max-width: 200px;
+  height: auto;
+  background-color: #f9f6f2;
+}
+
+/* Combine all body styles here */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f9f6f2;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  background-repeat: repeat;
+  margin: 0;
+  padding: 0 0 140px 0; /* padding-bottom for sticky notes */
+  color: #333;
+  position: relative; /* for sticky notes absolute positioning */
+  /* Remove min-height: 1600px to avoid forced scrolling */
+}
+
+/* Main content spacing (optional) */
+main {
+  padding-bottom: 140px;
+}
+
+header {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+header h1 {
+  font-family: 'Courier New', monospace;
+  font-size: 3rem;
+  color: #3e2c1c;
+  margin: 0;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+header p {
+  font-family: 'Merriweather', serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.0rem;
+  color: #4a3c1a;
+  line-height: 2;
+  letter-spacing: 1px;
+  max-width: 900px;
+  margin: 0.75rem auto 0 auto;
+  text-align: justify;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.top-box {
+  background-color: #f4f2ed;
+  padding: 4rem 0;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.card {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #fff9c4,
+      #fff9c4 24px,
+      #a2c0e8 25px,
+      #fff9c4 26px
+    ),
+    linear-gradient(to right, #fddede 40px, transparent 40px);
+  border: 1.5px solid #f4d35e;
+  border-radius: 6px;
+  padding: 1.5rem 1.5rem 2rem 2.5rem;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.08);
+  color: #4a3c1a;
+  font-family: 'Dancing Script', cursive;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  min-height: 320px;
+  text-decoration: none;
+}
+
+a:link, a:visited {
+  color: #c1864f;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: #a66f33;
+  text-decoration: underline;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-weight: 700;
+  color: #b85a00;
+  font-size: 1.3rem;
+}
+
+.card p {
+  color: #5a4d1b;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.card .preview {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #666;
+  display: none;
+}
+
+.card.expanded .preview {
+  display: block;
+}
+
+.card .toggle-preview {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #c1864f;
+  margin-top: 0.8rem;
+  display: inline-block;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* Embed container for Google Sheet */
+.embed-container {
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 400px;
+}
+
+/* Sponsored card style */
+.sponsored {
+  background: #fff4e5;
+  border-color: #c1864f;
+  position: relative;
+}
+.sponsored::before {
+  content: "Sponsored";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 0.75rem;
+  color: #c1864f;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Email capture form */
+footer {
+  text-align: center;
+  padding: 2rem 2rem 3rem 2rem;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f4f2ed;
+}
+footer form {
+  margin-top: 1rem;
+}
+footer input[type="email"] {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  width: 250px;
+  max-width: 80vw;
+}
+footer button {
+  background-color: #c1864f;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+footer button:hover {
+  background-color: #a66f33;
+}
+footer p.note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* Small responsive tweak for logo */
+@media (max-width: 420px) {
+  .logo { max-width: 90px; margin-bottom: 0.6rem; }
+  header { padding: 1.25rem; }
+}
+
+/* Sticky note base style */
+.sticky-note {
+  position: absolute;
+  width: 280px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px 6px 12px 6px;
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.2);
+  color: #222;
+  transform-origin: center;
+  cursor: default;
+  user-select: none;
+  z-index: 20;
+}
+
+/* Regular font for Ads/Sponsorships */
+.sticky-note .ad-sponsorship {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+/* Cursive font for Creative/Idea Notes */
+.sticky-note .creative-note {
+  font-family: 'Dancing Script', cursive;
+  color: #222;
+}
+
+/* Purple sticky note for Recommended */
+.sticky-purple {
+  background: linear-gradient(135deg, #a081d9, #6a47b8);
+  color: #fff;
+  border: 2px solid #583d8b;
+  box-shadow: 4px 6px 12px rgba(89,63,139,0.7);
+}
+
+/* Orange sticky note for Sponsored */
+.sticky-orange {
+  background: linear-gradient(135deg, #f7b733, #ff6e00);
+  color: #3d1f00;
+  border: 2px solid #b26300;
+  box-shadow: 4px 6px 12px rgba(194,115,0,0.7);
+}
+
+/* Light green sticky note for Quick Reminder */
+#sticky-green {
+  background: linear-gradient(135deg, #c3e6cb, #9ed6a7);
+  border: 2px solid #74b866;
+  color: #355e32;
+  box-shadow: 3px 4px 6px rgba(60, 110, 50, 0.3);
+  width: 280px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px 6px 12px 6px;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+}
+
+/* Light pink sticky note for Idea */
+#sticky-pink {
+  background: linear-gradient(135deg, #f8d7da, #f1b0b7);
+  border: 2px solid #d35c6d;
+  color: #741f27;
+  box-shadow: 3px 4px 6px rgba(180, 50, 70, 0.3);
+  width: 280px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px 6px 12px 6px;
+  position: absolute;
+  top: 800px;
+  right: 10px;
+  transform: rotate(4deg);
+}
+
+/* Make sure the container is relative */
+body {
+  position: relative;
+}
+
+/* Blue sticky note style - absolute bottom left */
+.sticky-blue {
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  border: 2px solid #2a579d;
+  color: #e3f2fd;
+  box-shadow: 4px 6px 12px rgba(42, 87, 157, 0.7);
+  width: 280px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px 6px 12px 6px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 30;
+}
+
+/* Green sticky note bottom right - absolute */
+.sticky-green {
+  background: linear-gradient(135deg, #81c784, #4caf50);
+  border: 2px solid #388e3c;
+  color: #e8f5e9;
+  box-shadow: 4px 6px 12px rgba(56, 142, 60, 0.7);
+  width: 280px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px 6px 12px 6px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 30;
+}
+
+/* Slight rotation variations for realism */
+.rotate-1 { transform: rotate(3deg); }
+.rotate-2 { transform: rotate(-4deg); }
+.rotate-3 { transform: rotate(2deg); }
+.rotate-4 { transform: rotate(-3deg); }
+
+/* Positioning each sticky note */
+#sticky-recommended {
+  top: 180px;
+  left: 30px;
+}
+#sticky-sponsored-1 {
+  top: 400px;
+  right: 40px;
+}
+#sticky-sponsored-2 {
+  top: 600px;
+  left: 60px;
+}
+
+/* Decorative pencil */
+.decor-pencil {
+  position: absolute;
+  width: 120px;
+  top: 180px;
+  left: 10px;
+  transform: rotate(-15deg);
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+}
+/* Decorative pen */
+.decor-pen {
+  position: absolute;
+  width: 100px;
+  top: 520px;
+  right: 30px;
+  transform: rotate(20deg);
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+}
+/* Decorative coffee stain */
+.decor-coffee-stain {
+  position: absolute;
+  width: 150px;
+  top: 20px;
+  right: 20px;
+  transform: rotate(10deg);
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+}
+
+/* Responsive container and card tweaks */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  .card {
+    min-height: auto;
+  }
+}
+@media (max-width: 700px) {
+  .sticky-note {
+    position: fixed !important;
+    bottom: 80px !important;  /* lift above nav bars */
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+    width: 90vw;
+    max-width: 320px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 12px;
+    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+  }
+
+  /* Add padding to bottom of main container so content isn't hidden behind sticky notes */
+  body, main, .container {
+    padding-bottom: 140px;  /* same height as sticky notes + some space */
+  }
+}
+
+/* Remove hiding sticky notes on mobile to prevent content overlap issues */
+/* If you want to hide sticky notes on mobile, uncomment below: */
+/*
+@media (max-width: 700px) {
+  .sticky-note {
+    display: none;
+  }
+}
+*/
+</style>
+
+
+</style>
+</head>
+<body id="top">
+
+<!-- Sticky Logo -->
+<a href="#top" class="sticky-logo">
+  <img src="images/logo.png" alt="the logo" />
+</a>
+
+
+  <div class="top-box"></div>
+
+  <header>
+    <h1>The Nerd Store</h1>
+    <p>
+      Like your favorite geeky sidekick, The Nerd Store is where all your essential nerd gear is laid out—organized, straightforward, and ready whenever you need it. No distractions, no fluff—just a clean, honest space that lets you dive straight into your passions with everything you want right at your fingertips.<br><br>
+Simply grab what you need by copying and pasting the documents, and you’re all set—no hoops to jump through. Here, authenticity means freedom, and openness means you can explore, create, and level up without clutter or extra hassle. Best of all? No signups, no barriers—it’s completely free for all fellow nerds.
+    </p>
+  </header>
+</body>
+
+
+
+
+<main class="container">
+
+
+<!-- My Best Friend Therapy Session Tracker -->
+<div class="card" data-label="Notion">
+  <h2>📎 My Best Friend Therapy Session Tracker</h2>
+  <p>
+    Find clarity, track your growth, and stay grounded between sessions.<br><br>
+    The My Best Friend Therapy Session Tracker is a beautifully simple yet powerful Notion template designed for anyone in therapy, coaching, or personal development. Whether you're working with a professional or on your own, this tracker helps you reflect on each session, monitor your emotional patterns, and set clear goals moving forward.
+  </p>
+  <h3>💡 What’s Included:</h3>
+  <ul>
+    <li>✔️ Easy-to-use Notion Template</li>
+    <li>✔️ Session Log Table with guided prompts</li>
+    <li>✔️ Mood & Anxiety Trackers (1–5 rating scale)</li>
+    <li>✔️ Homework / Action Step Sections</li>
+    <li>✔️ Next Session Goals & Reflections</li>
+    <li>✔️ Attachment Field for notes, worksheets, or images</li>
+    <li>✔️ Private & Secure – lives in your own Notion account</li>
+    <li>✔️ Quickstart Instructions PDF</li>
+  </ul>
+  <a href="https://www.notion.so/My-Best-Friend-Therapy-Session-Tracker-225d69a3010280d5b7e1f3b73337763e?utm_source=secretarysdesk&utm_campaign=therapy_tracker"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the Therapy Session Tracker
+  </a>
+</div>
+
+<!-- My Best Friend GPT-4 ROI Calculator -->
+<div class="card" data-label="Calculator">
+  <h2>📎 My Best Friend GPT-4 ROI Calculator</h2>
+  <p>
+    The My Best Friend GPT-4 ROI Calculator is a streamlined, easy-to-use Google Sheets tool that helps you track the real value of using AI in your business or freelance work.
+  </p>
+  <p>
+    Whether you're an agency, entrepreneur, or consultant, this calculator makes it simple to measure how much time, money, and effort you’re saving with GPT-4 and other generative AI tools.
+  </p>
+  <h3>📊 What You Can Do With It:</h3>
+  <ul>
+    <li>Estimate time saved per task or week</li>
+    <li>Input your hourly rate to calculate monetary savings</li>
+    <li>View automatic ROI charts and savings breakdowns</li>
+    <li>Justify AI investments to clients or leadership</li>
+    <li>Refine workflows for maximum efficiency</li>
+  </ul>
+  <h3>✅ What You’ll Get:</h3>
+  <ul>
+    <li>Clean Google Sheets calculator (secure PDF link)</li>
+    <li>Built-in ROI formulas</li>
+    <li>Editable tracking fields</li>
+    <li>One-click savings charts</li>
+    <li>Privacy—data stays in your Google Drive</li>
+  </ul>
+  <a href="https://docs.google.com/spreadsheets/d/1nzR1DuiMyylM-sAy2eZ8mKh-i7Qq7F7d-rbkU48xKcc/edit?usp=sharing&utm_source=secretarysdesk&utm_campaign=roi_calculator"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the ROI Calculator
+  </a>
+</div>
+
+<!-- My Best Friend Client Progress Dashboard -->
+<div class="card" data-label="Client Progress">
+  <h2>📎 My Best Friend Client Progress Dashboard</h2>
+  <p>
+    Track client growth, goals, and milestones — all in one place.<br><br>
+    The My Best Friend Client Dashboard is built for therapists, coaches, consultants, and wellness professionals, this simple, customizable Google Sheets tool helps you stay organized while providing high-quality, goal-oriented support to your clients.
+  </p>
+  <h3>💡 What You Can Do:</h3>
+  <ul>
+    <li>Log session summaries and action items</li>
+    <li>Track and visualize client goals</li>
+    <li>Keep notes, homework, and outcomes organized</li>
+    <li>Identify patterns, wins, and focus areas</li>
+  </ul>
+  <a href="https://docs.google.com/spreadsheets/d/1U5eR47cT0x7NtwXMCfeADNv0BQQ0bwW2P7dXBV-GaVc/edit?usp=sharing"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the Client Progress Dashboard
+  </a>
+</div>
+
+<!-- My Best Friend AI Content Idea Generator -->
+<div class="card" data-label="Content">
+  <h2>📎 My Best Friend AI Content Idea Generator</h2>
+  <p>
+    Spark creativity and never run out of fresh ideas for your marketing and social media content.<br><br>
+    The My Best Friend AI Content Idea Generator helps bloggers, entrepreneurs, and social media managers brainstorm captivating post ideas, blog topics, and campaign concepts tailored to your audience.
+  </p>
+  <h3>✨ What You’ll Get:</h3>
+  <ul>
+    <li>Guided prompts for creative thinking</li>
+    <li>Organized idea lists for planning</li>
+    <li>Multi-platform compatibility</li>
+    <li>Customizable for your brand voice</li>
+  </ul>
+  <a href="https://docs.google.com/spreadsheets/d/1BdV8wZTqlM0URe3zUag9idiP-WdjjNoO8_ETq8KTXNE/edit?usp=sharing&utm_source=secretarysdesk&utm_campaign=content_idea_generator"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the AI Content Idea Generator
+  </a>
+</div>
+
+<!-- My Best Friend Daily Mindful Check-In Journal -->
+<div class="card" data-label="Journal">
+  <h2>📎 My Best Friend Daily Mindful Check-In Journal</h2>
+  <p>
+    Cultivate daily mindfulness and nurture emotional well-being with this thoughtfully designed digital journal.<br><br>
+    The My Best Friend Daily Mindful Check-In Journal guides you through reflective prompts, mood tracking, and gratitude exercises—helping you build lasting habits for mental clarity, balance, and resilience.
+  </p>
+  <h3>🧘 What’s Included:</h3>
+  <ul>
+    <li>Daily reflection prompts</li>
+    <li>Mood and emotion tracking</li>
+    <li>Gratitude journaling</li>
+    <li>Simple habit-building tools</li>
+  </ul>
+  <a href="https://www.notion.so/My-Best-Friend-Daily-Mindful-Check-In-Journal-248d69a3010280eba466c575d52c1004?utm_source=secretarysdesk&utm_campaign=mindful_journal"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the Daily Mindful Check-In Journal
+  </a>
+</div>
+
+<!-- My Best Friend AI Prompt Testing Log -->
+<div class="card" data-label="AI Log">
+  <h2>📎 My Best Friend AI Prompt Testing Log</h2>
+  <p>
+    The My Best Friend AI Prompt Testing Log helps to improve your AI prompts and get more consistent results with this tracking tool for versions, settings, responses, and performance.
+  </p>
+  <h3>📑 What’s Inside:</h3>
+  <ul>
+    <li>Prompt versioning and history</li>
+    <li>Parameter logging (temperature, tokens, etc.)</li>
+    <li>Response tracking</li>
+    <li>Performance ratings</li>
+    <li>Observation notes & next steps</li>
+  </ul>
+  <h3>⚙️ How It Works:</h3>
+  <ul>
+    <li>Download the log and make your own copy</li>
+    <li>Log versions, settings, responses, and notes</li>
+    <li>Review data to refine prompts</li>
+  </ul>
+  <a href="https://docs.google.com/spreadsheets/d/10sSG5buvIJrmjUWVjYtSuWlfS_JLvlfWm2UyaKREZ3Q/edit?usp=sharing&utm_source=secretarysdesk&utm_campaign=prompt_log"
+     target="_blank" rel="noopener noreferrer"
+     style="display:inline-block; margin-top:1rem; color:#c1864f; font-weight:600; text-decoration:none;">
+    Open the Prompt Testing Log
+  </a>
+</div>
+
+</main>
+
+<!-- Sticky notes scattered around -->
+
+<section id="sticky-recommended" class="sticky-note sticky-purple rotate-1" aria-label="Recommended resources">
+  <h2 style="margin-top: 0; font-weight: 700;">Recommended Resources</h2>
+  <p>Based on your interests, here are some carefully selected tools that complement The Secretary's Desk perfectly:</p>
+  <ul>
+    <li><a href="https://www.headspace.com?utm_source=secretarysdesk&utm_campaign=ads" target="_blank" rel="noopener noreferrer" style="color:#fff;">Headspace Meditation App</a></li>
+    <li><a href="https://notion.so?utm_source=secretarysdesk&utm_campaign=ads" target="_blank" rel="noopener noreferrer" style="color:#fff;">Notion All-in-One Workspace</a></li>
+    <li><a href="https://calendly.com?utm_source=secretarysdesk&utm_campaign=ads" target="_blank" rel="noopener noreferrer" style="color:#fff;">Calendly Scheduling</a></li>
+  </ul>
+</section>
+
+<section id="sticky-sponsored-1" class="sticky-note sticky-orange rotate-2" aria-label="Sponsored offer">
+  <h2 style="margin-top: 0; font-weight: 700;">Sponsored Offer</h2>
+  <p>Upgrade your workspace with our premium desk organizer kit. Clean, functional, and designed for productivity.</p>
+  <a href="https://example.com/desk-organizer?utm_source=secretarysdesk&utm_campaign=ads" target="_blank" rel="noopener noreferrer" style="color:#3d1f00; font-weight: 700;">Shop Now</a>
+</section>
+
+<section id="sticky-sponsored-2" class="sticky-note sticky-orange rotate-3" aria-label="Sponsored offer">
+  <h2 style="margin-top: 0; font-weight: 700;">Sponsored Offer</h2>
+  <p>Discover the art of handwritten notes with our luxury fountain pens collection, made for thoughtful correspondence.</p>
+  <a href="https://example.com/fountain-pens?utm_source=secretarysdesk&utm_campaign=ads" target="_blank" rel="noopener noreferrer" style="color:#3d1f00; font-weight: 700;">Learn More</a>
+</section>
+
+<section id="sticky-green" aria-label="Quick Reminder">
+  <h2 style="margin-top: 0; font-weight: 700;">Quick Reminder</h2>
+  <p>Follow up on client emails by Friday.</p>
+</section>
+
+<section id="sticky-pink" aria-label="Idea">
+  <h2 style="margin-top: 0; font-weight: 700;">Idea</h2>
+  <p>Consider adding a weekly newsletter signup bonus.</p>
+</section>
+
+<section id="sticky-blue" class="sticky-note sticky-blue rotate-4" aria-label="Ad Spot Blue" style="bottom: 340px; left: 20px;">
+  <h2 style="margin-top: 0; font-weight: 700; color: #004d99;">Sponsored Ad</h2>
+  <p>Check out our latest blue-themed gadgets!</p>
+  <a href="https://example.com/blue-gadgets" target="_blank" rel="noopener noreferrer" style="color:#004d99; font-weight: 700; text-decoration: underline;">Shop Now</a>
+</section>
+
+<section id="sticky-green-bottom" class="sticky-note sticky-green rotate-3" aria-label="Ad Spot Green" style="bottom: 500px; right: 20px;">
+  <h2 style="margin-top: 0; font-weight: 700; color: #2e7d32;">Sponsored Ad</h2>
+  <p>Discover eco-friendly gear to level up your workspace.</p>
+  <a href="https://example.com/eco-gear" target="_blank" rel="noopener noreferrer" style="color:#2e7d32; font-weight: 700; text-decoration: underline;">Learn More</a>
+</section>
+
+
+<!-- Decorative elements -->
+<img src="images/pencil.png" alt="" aria-hidden="true" class="decor-pencil" />
+<img src="images/pen.png" alt="" aria-hidden="true" class="decor-pen" />
+<img src="images/coffee-stain.png" alt="" aria-hidden="true" class="decor-coffee-stain" />
+
+<footer>
+  <p>Stay updated with new tools and templates from The Nerd Store!</p>
+  
+  <form action="https://formspree.io/f/mnnzwzzr" method="POST">
+    <input type="email" name="email" placeholder="Your email address" aria-label="Email address" required />
+    <button type="submit">Subscribe</button>
+  </form>
+  
+  <p class="note">We respect your privacy. Unsubscribe anytime.</p>
+  
+  <p>&copy; 2025 The Nerd Store</p>
+  <nav>
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="terms.html">Terms of Use</a> | 
+    <a href="mailto:mybestfriendai2025@gmail.com">Contact Us</a>
+  </nav>
+
+  <p class="credit">Built by The Haus of My Best Friend</p>
+</footer>
+
+
+
+
+</body>
+</html>
