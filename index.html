@@ -429,36 +429,58 @@ body {
     min-height: auto;
   }
 }
+/* --- Mobile & Tablet Adjustments --- */
 @media (max-width: 700px) {
+  /* Reduce overall padding for mobile */
+  header {
+    padding: 1.5rem 1rem;
+  }
+  header p {
+    padding: 0 1rem;
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  /* Container padding so content doesn't touch edges */
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Cards: remove fixed height & reduce padding */
+  .card {
+    min-height: auto;
+    padding: 1.5rem 1rem;
+  }
+
+  /* Sticky notes: neatly stack below header */
   .sticky-note {
-    position: fixed !important;
-    bottom: 80px !important;  /* lift above nav bars */
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) rotate(0deg) !important;
-    width: 90vw;
+    position: static !important;
+    transform: none !important;
+    width: 100%;
     max-width: 320px;
-    padding: 0.8rem 1rem;
+    margin: 1rem auto;
+    display: block;
+  }
+
+  /* Top box spacing reduced */
+  .top-box {
+    padding: 2rem 0;
+  }
+}
+
+/* --- Very Small Screens --- */
+@media (max-width: 450px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  header p {
     font-size: 0.9rem;
-    border-radius: 12px;
-    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.15);
-    z-index: 9999;
   }
-
-  /* Add padding to bottom of main container so content isn't hidden behind sticky notes */
-  body, main, .container {
-    padding-bottom: 140px;  /* same height as sticky notes + some space */
+  .card h2 {
+    font-size: 1rem;
   }
 }
 
-/* Remove hiding sticky notes on mobile to prevent content overlap issues */
-/* If you want to hide sticky notes on mobile, uncomment below: */
-/*
-@media (max-width: 700px) {
-  .sticky-note {
-    display: none;
-  }
-}
 */
 </style>
 
