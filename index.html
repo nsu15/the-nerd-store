@@ -449,13 +449,25 @@ body {
   .card {
     font-family: 'Open Sans', sans-serif !important;
   }
-}
-@media (max-width: 700px) {
+
   .sticky-logo {
     top: 5px !important;
   }
+
   .sticky-logo img {
     max-width: 70px !important; /* slightly smaller on mobile */
+  }
+
+  /* Add your sticky note overrides here */
+  #sticky-green,
+  #sticky-pink {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 1rem auto !important;
+    box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.15) !important;
+    cursor: default !important;
   }
 }
 
