@@ -382,42 +382,6 @@ body {
   left: 60px;
 }
 
-/* Decorative pencil */
-.decor-pencil {
-  position: absolute;
-  width: 120px;
-  top: 180px;
-  left: 10px;
-  transform: rotate(-15deg);
-  opacity: 1;
-  pointer-events: none;
-  user-select: none;
-  z-index: 10;
-}
-/* Decorative pen */
-.decor-pen {
-  position: absolute;
-  width: 100px;
-  top: 520px;
-  right: 30px;
-  transform: rotate(20deg);
-  opacity: 1;
-  pointer-events: none;
-  user-select: none;
-  z-index: 10;
-}
-/* Decorative coffee stain */
-.decor-coffee-stain {
-  position: absolute;
-  width: 150px;
-  top: 20px;
-  right: 20px;
-  transform: rotate(10deg);
-  opacity: 1;
-  pointer-events: none;
-  user-select: none;
-  z-index: 5;
-}
 
 /* Responsive container and card tweaks */
 @media (max-width: 600px) {
@@ -481,7 +445,20 @@ body {
   }
 }
 
-*/
+@media (max-width: 700px) {
+  .card {
+    font-family: 'Open Sans', sans-serif !important;
+  }
+}
+@media (max-width: 700px) {
+  .sticky-logo {
+    top: 5px !important;
+  }
+  .sticky-logo img {
+    max-width: 70px !important; /* slightly smaller on mobile */
+  }
+}
+
 </style>
 
 
@@ -707,11 +684,6 @@ Simply grab what you need by copying and pasting the documents, and you’re all
   <a href="https://example.com/eco-gear" target="_blank" rel="noopener noreferrer" style="color:#2e7d32; font-weight: 700; text-decoration: underline;">Learn More</a>
 </section>
 
-
-<!-- Decorative elements -->
-<img src="images/pencil.png" alt="" aria-hidden="true" class="decor-pencil" />
-<img src="images/pen.png" alt="" aria-hidden="true" class="decor-pen" />
-<img src="images/coffee-stain.png" alt="" aria-hidden="true" class="decor-coffee-stain" />
 
 <footer>
   <p>Stay updated with new tools and templates from The Nerd Store!</p>
